@@ -22,7 +22,8 @@ I am a Researcher and Senior Lecturer at the Department of Applied Mathematics a
 My main research interests are the mathematical modelling of nonlinear physical processes, including analysing the qualitative features of solutions to differential equations, developing self-similar solutions, and conducting research. Furthermore, I am deeply interested in Data Analysis.
 
 With over 6 years of experience in the Education and Research field, I have extensive teaching experience in Mathematical modelling, Calculus, Database Management Systems, Introduction to Programming (Python, C#, MATLAB), and LaTeX across multiple universities, including NUUz and TSTU.
----
+
+<hr>
 
 <div style="display: flex; justify-content: space-around; background: #f0f4f8; padding: 20px; border-radius: 10px; margin-top: 30px; border: 1px solid #d1d9e0;">
   <div style="text-align: center;">
