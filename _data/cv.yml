@@ -5,8 +5,18 @@
       value: Bobokandov Makhmud
     - title: Email
       value: bmahmudbey@gmail.com
+    - title: Phone
+      value: (+998) 97-480-16-95
     - title: Profiles
-      value: ORCID (0000-0002-3326-4390)
+      value: ORCID (0000-0002-3326-4390), X (@makhmudbey)
+
+- title: Summary
+  type: list
+  contents:
+    - name: Experience
+      value: 6+ years of experience as a Senior Lecturer in the Education and Research field.
+    - name: Degree
+      value: Ph.D. in Applied Mathematics.
 
 - title: Education
   type: time_table
@@ -17,13 +27,29 @@
     - title: M.Sc. in Applied Mathematics
       institution: National University of Uzbekistan
       year: 2018 - 2020
+    - title: B.Sc. in Informatics and Information Technologies
+      institution: Tashkent Institute of Railway Engineering
+      year: 2014 - 2018
 
 - title: Employment
   type: time_table
   contents:
     - title: Researcher & Senior Lecturer
-      institution: National University of Uzbekistan
+      institution: National University of Uzbekistan (NUUz)
       year: 2025 - Present
     - title: Senior Lecturer
-      institution: Tashkent State Transport University
+      institution: Tashkent State Transport University (TSTU)
       year: 2024 - 2025
+    - title: Senior Lecturer
+      institution: Tashkent University of Social Innovations (TUSI)
+      year: 2023 - 2024
+    - title: Teacher Assistant
+      institution: National University of Uzbekistan (NUUz)
+      year: 2020 - 2023
+
+- title: Awards & Grants
+  type: time_table
+  contents:
+    - title: Winner of the Government scholarship named after Biruni
+      institution: Uzbekistan
+      year: 2018
