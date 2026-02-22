@@ -78,10 +78,14 @@ nav_order: 2
 </div>
 
 <script>
-// 1. BibTeX kodini serverdan olish va Cite tugmalarini joylashtirish
+// 1. BibTeX ma'lumotini global o'zgaruvchiga saqlash
+let globalBibData = "";
+
 fetch('{{ site.baseurl }}/assets/bibliography/papers.bib')
   .then(response => response.text())
   .then(data => {
+      globalBibData = data; // Eksport uchun xotirada saqlaymiz
+
       document.querySelectorAll('.bibliography .row').forEach(row => {
           let bibElement = row.querySelector('[id]');
           if (!bibElement) return;
@@ -105,9 +109,10 @@ fetch('{{ site.baseurl }}/assets/bibliography/papers.bib')
               citeBtn.onclick = function(e) {
                   e.preventDefault();
                   if (bibBox.style.display === 'none' || bibBox.style.display === '') {
-                      let regex = new RegExp("@[A-Za-z]+\\{" + bibKey + ",[\\s\\S]*?\\n\\}", "g");
-                      let match = data.match(regex);
-                      bibBox.innerText = match ? match[0] : "BibTeX kodi topilmadi.";
+                      // Asl bibtex blokni ajratib olish
+                      let regex = new RegExp("@[A-Za-z]+\\s*\\{\\s*" + bibKey + "\\s*,[\\s\\S]*?(?=\\n@|$)", "i");
+                      let match = globalBibData.match(regex);
+                      bibBox.innerText = match ? match[0].trim() : "BibTeX kodi topilmadi.";
                       bibBox.style.display = 'block';
                   } else {
                       bibBox.style.display = 'none';
@@ -128,24 +133,54 @@ document.getElementById('pubSearch').addEventListener('keyup', function() {
     });
 });
 
-// 3. Eksport funksiyasi (.csv, .txt, .bib)
+// 3. Toza fayldan Eksport funksiyasi (.csv, .txt, .bib)
 function exportData(type) {
     if (type === 'bib') {
         window.open('{{ site.baseurl }}/assets/bibliography/papers.bib', '_blank');
         return;
     }
+
+    if (!globalBibData) {
+        alert("BibTeX ma'lumotlari hali yuklanmadi. Iltimos biroz kuting.");
+        return;
+    }
     
-    let csvData = "Title,Author,Journal Info\n";
+    let csvData = "Title,Authors,Journal/Booktitle,Year\n";
     let txtData = "";
     
     document.querySelectorAll('.bibliography .row').forEach(row => {
         if (row.style.display !== "none") {
-            let t = row.querySelector('.title')?.innerText.replace(/"/g, '""').trim() || "";
-            let a = row.querySelector('.author')?.innerText.replace(/"/g, '""').trim() || "";
-            let j = row.querySelector('.periodical')?.innerText.replace(/"/g, '""').trim() || "";
+            let bibElement = row.querySelector('[id]');
+            if (!bibElement) return;
+            let bibKey = bibElement.id;
             
-            csvData += `"${t}","${a}","${j}"\n`;
-            txtData += `TITLE: ${t}\nAUTHORS: ${a}\nJOURNAL: ${j}\n---\n`;
+            // Asl bib fayldan maqolani ushlash
+            let regex = new RegExp("@[A-Za-z]+\\s*\\{\\s*" + bibKey + "\\s*,[\\s\\S]*?(?=\\n@|$)", "i");
+            let match = globalBibData.match(regex);
+            
+            if (match) {
+                let bibItem = match[0];
+                
+                // Maydonlarni toza qirqib olish uchun yordamchi funksiya
+                let extractField = (field) => {
+                    let r = new RegExp("\\b" + field + "\\s*=\\s*\\{([\\s\\S]*?)\\}", "i");
+                    let m = bibItem.match(r);
+                    if (!m) {
+                        r = new RegExp("\\b" + field + "\\s*=\\s*\"([\\s\\S]*?)\"", "i");
+                        m = bibItem.match(r);
+                    }
+                    return m ? m[1].replace(/\n/g, ' ').replace(/\s+/g, ' ').trim() : "";
+                };
+                
+                // Toza qiymatlar
+                let t = extractField("title").replace(/"/g, '""');
+                let a = extractField("author").replace(/"/g, '""');
+                let j = (extractField("journal") || extractField("booktitle")).replace(/"/g, '""');
+                let y = extractField("year");
+                
+                csvData += `"${t}","${a}","${j}","${y}"\n`;
+                txtData += `TITLE: ${t}\nAUTHORS: ${a}\nJOURNAL: ${j}\nYEAR: ${y}\n---\n`;
+            }
         }
     });
 
