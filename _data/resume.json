@@ -1,0 +1,74 @@
+{
+  "basics": {
+    "name": "Bobokandov Makhmud",
+    "label": "Researcher & Senior Lecturer",
+    "email": "bmahmudbey@gmail.com",
+    "phone": "(+998) 97-480-16-95",
+    "url": "https://orcid.org/0000-0002-3326-4390",
+    "summary": "6+ years of experience as a Senior Lecturer in the Education and Research field. Ph.D. in Applied Mathematics.",
+    "location": {
+      "city": "Tashkent",
+      "region": "Uzbekistan"
+    }
+  },
+  "work": [
+    {
+      "name": "National University of Uzbekistan",
+      "position": "Researcher & Senior Lecturer",
+      "startDate": "2025-01-01",
+      "summary": ""
+    },
+    {
+      "name": "Tashkent State Transport University",
+      "position": "Senior Lecturer",
+      "startDate": "2024-01-01",
+      "endDate": "2025-01-01",
+      "summary": ""
+    },
+    {
+      "name": "Tashkent University of Social Innovations",
+      "position": "Senior Lecturer",
+      "startDate": "2023-01-01",
+      "endDate": "2024-01-01",
+      "summary": ""
+    },
+    {
+      "name": "National University of Uzbekistan",
+      "position": "Teacher Assistant",
+      "startDate": "2020-01-01",
+      "endDate": "2023-01-01",
+      "summary": ""
+    }
+  ],
+  "education": [
+    {
+      "institution": "National University of Uzbekistan",
+      "area": "Applied Mathematics",
+      "studyType": "Ph.D.",
+      "startDate": "2022-01-01",
+      "endDate": "2024-12-31"
+    },
+    {
+      "institution": "National University of Uzbekistan",
+      "area": "Applied Mathematics",
+      "studyType": "M.Sc.",
+      "startDate": "2018-01-01",
+      "endDate": "2020-12-31"
+    },
+    {
+      "institution": "Tashkent Institute of Railway Engineering",
+      "area": "Informatics and Information Technologies",
+      "studyType": "B.Sc.",
+      "startDate": "2014-01-01",
+      "endDate": "2018-12-31"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Government scholarship named after Biruni",
+      "date": "2018-01-01",
+      "awarder": "Uzbekistan",
+      "summary": "Winner of the scholarship."
+    }
+  ]
+}
