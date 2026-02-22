@@ -2,63 +2,54 @@
   type: info
   contents:
     - title: Full Name
-      [cite_start]value: Makhmud Bobokandov [cite: 1]
+      value: Bobokandov Makhmud
     - title: Email
-      [cite_start]value: bmahmudbey@gmail.com [cite: 6]
+      value: bmahmudbey@gmail.com
     - title: Phone
-      [cite_start]value: (+99897) 480-16-95 [cite: 7]
-    - title: Languages
-      [cite_start]value: Uzbek (Native), English (B1) [cite: 71]
+      value: (+998) 97-480-16-95
+    - title: Profiles
+      value: ORCID (0000-0002-3326-4390), X (@makhmudbey)
+
+- title: Summary
+  type: list
+  contents:
+    - name: Experience
+      value: 6+ years of experience as a Senior Lecturer in the Education and Research field.
+    - name: Degree
+      value: Ph.D. in Applied Mathematics.
 
 - title: Education
   type: time_table
   contents:
-    - title: Ph.D. in Mathematical Simulations and Numerical Methods
-      [cite_start]institution: National University of Uzbekistan named after Mirzo Ulugbek [cite: 28, 29]
-      [cite_start]year: 2022 - 2024 [cite: 26, 27]
-      [cite_start]description: "Thesis title: Mathematical modelling of diffusion processes represented by parabolic equations and systems of non-divergent form." [cite: 30]
+    - title: Ph.D. in Applied Mathematics
+      institution: National University of Uzbekistan
+      year: 2022 - 2024
     - title: M.Sc. in Applied Mathematics and Information Technologies
-      [cite_start]institution: National University of Uzbekistan named after Mirzo Ulugbek [cite: 32]
-      [cite_start]year: 2018 - 2020 [cite: 31]
+      institution: National University of Uzbekistan
+      year: 2018 - 2020
     - title: B.Sc. in Informatics and Information Technologies
-      [cite_start]institution: Tashkent Institute of Railway Engineering [cite: 34]
-      [cite_start]year: 2014 - 2018 [cite: 33]
+      institution: Tashkent Institute of Railway Engineering
+      year: 2014 - 2018
 
-- title: Work Experience
+- title: Employment
   type: time_table
   contents:
     - title: Researcher & Senior Lecturer
-      [cite_start]institution: National University of Uzbekistan (NUUz) [cite: 22]
-      [cite_start]year: 2025 - Present [cite: 22]
+      institution: National University of Uzbekistan (NUUz)
+      year: 2025 - Present
     - title: Senior Lecturer
-      [cite_start]institution: Tashkent State Transport University (TSTU) [cite: 22]
-      [cite_start]year: 2024 - 2025 [cite: 22]
+      institution: Tashkent State Transport University (TSTU)
+      year: 2024 - 2025
     - title: Senior Lecturer
-      [cite_start]institution: Tashkent University of Social Innovations (TUSI) [cite: 22]
-      [cite_start]year: 2023 - 2024 [cite: 22]
+      institution: Tashkent University of Social Innovations (TUSI)
+      year: 2023 - 2024
     - title: Teacher Assistant
-      [cite_start]institution: National University of Uzbekistan (NUUz) [cite: 22]
-      [cite_start]year: 2020 - 2023 [cite: 22]
+      institution: National University of Uzbekistan (NUUz)
+      year: 2020 - 2023
 
-- title: Grants & Awards
+- title: Awards & Grants
   type: time_table
   contents:
-    - title: National Grant (Senior Researcher)
-      [cite_start]institution: "Mathematical modelling of processes described by nonlinear... (AL-9224104601)" [cite: 37]
-      [cite_start]year: 2025 - 2027 [cite: 36]
-    - title: Fundamental Grant (Junior Researcher)
-      [cite_start]institution: "Investigation of the qualitative properties... (OTF-4-30)" [cite: 40]
-      [cite_start]year: 2017 - 2020 [cite: 39]
     - title: Winner of the Government scholarship named after Biruni
-      [cite_start]institution: Uzbekistan [cite: 11]
-      year: 2018 
-
-- title: Skills
-  type: list
-  contents:
-    - name: Programming
-      [cite_start]value: Python, C#, MATLAB, SQL, HTML, CSS [cite: 73, 77, 78]
-    - name: Data Analysis
-      [cite_start]value: Pandas, Matplotlib, Simulink [cite: 72]
-    - name: Technologies
-      [cite_start]value: .NET Framework, MVC, Django, OOP, LaTeX [cite: 74, 78, 79]
+      institution: Uzbekistan
+      year: 2018
