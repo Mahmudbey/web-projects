@@ -1,3 +1,11 @@
+---
+layout: page
+title: publications
+permalink: /publications/
+nav: true
+nav_order: 2
+---
+
 <div class="pub-filters" style="margin-bottom: 30px; padding: 20px; background: #fafafa; border-radius: 12px; border: 1px solid #ddd;">
   <input type="text" id="pubSearch" placeholder="Maqola nomi, muallif yoki kalit so'zlar..." style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px;">
   
