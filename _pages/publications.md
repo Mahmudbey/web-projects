@@ -8,18 +8,16 @@ nav_order: 2
 
 <div class="publications">
 
-  <div class="pub-filters" style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e9ecef;">
-    <h5 style="margin-bottom: 15px; color: #333;">Maqolalarni boshqarish</h5>
-    <input type="text" id="pubSearch" placeholder="Maqola nomi, muallif yoki yilni yozing..." 
-           style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ced4da; border-radius: 8px; font-size: 1rem;">
+  <div class="pub-filters" style="margin-bottom: 30px; padding: 20px; background: #fdfdfd; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    <h5 style="margin-top: 0;">🔎 Maqolalarni qidirish va yuklash</h5>
+    <input type="text" id="pubSearch" placeholder="Sarlavha, muallif yoki yil..." 
+           style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px;">
     
-    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-      <span style="font-size: 0.9rem; font-weight: bold; color: #555;">Eksport:</span>
-      <button onclick="exportData('bib')" class="btn btn-sm" style="background-color: #007bff; color: white; border: none; padding: 5px 15px; border-radius: 4px;">.BIB</button>
-      <button onclick="exportData('csv')" class="btn btn-sm" style="background-color: #28a745; color: white; border: none; padding: 5px 15px; border-radius: 4px;">.CSV</button>
-      <button onclick="exportData('txt')" class="btn btn-sm" style="background-color: #6c757d; color: white; border: none; padding: 5px 15px; border-radius: 4px;">.TXT</button>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <button onclick="exportData('bib')" class="btn btn-sm" style="background: #007bff; color: white;">Eksport .BIB</button>
+      <button onclick="exportData('csv')" class="btn btn-sm" style="background: #28a745; color: white;">Eksport .CSV</button>
+      <button onclick="exportData('txt')" class="btn btn-sm" style="background: #6c757d; color: white;">Eksport .TXT</button>
     </div>
-    <p style="font-size: 0.75rem; margin-top: 10px; color: #888;">* Eslatma: Eksport faqat qidiruv natijasida ko'rinib turgan maqolalarni o'z ichiga oladi.</p>
   </div>
 
   <div id="publications-list">
@@ -29,60 +27,48 @@ nav_order: 2
 </div>
 
 <script>
-// Qidiruv funksiyasi
+// Filtr funksiyasi
 document.getElementById('pubSearch').addEventListener('keyup', function() {
     let filter = this.value.toLowerCase();
     let items = document.querySelectorAll('.bibliography > li');
-    
     items.forEach(item => {
         let text = item.innerText.toLowerCase();
         item.style.display = text.includes(filter) ? "" : "none";
     });
 });
 
-// Mukammal Eksport funksiyasi
+// Mukammal Eksport (Hamma ma'lumotlarni yig'ish)
 function exportData(type) {
     if (type === 'bib') {
-        // .bib faylini ochiq manzildan yuklab olish
+        // MUHIM: Fayl assets papkasida bo'lishi kerak
         window.open('{{ site.baseurl }}/assets/bibliography/papers.bib', '_blank');
         return;
     }
 
     let items = document.querySelectorAll('.bibliography > li');
-    let data = [];
-    
+    let results = [];
+
     items.forEach(item => {
         if (item.style.display !== "none") {
-            let title = item.querySelector('.title')?.innerText.trim() || "Noma'lum";
-            let author = item.querySelector('.author')?.innerText.trim() || "Noma'lum";
+            let title = item.querySelector('.title')?.innerText.trim() || "";
+            let author = item.querySelector('.author')?.innerText.trim() || "";
             let periodical = item.querySelector('.periodical')?.innerText.trim() || "";
+            let doi = item.querySelector('a[href*="doi.org"]')?.innerText.trim() || "";
             
-            // Yilni ajratish
-            let yearMatch = periodical.match(/\d{4}/);
-            let year = yearMatch ? yearMatch[0] : "";
-            
-            // DOI linkini topish
-            let doiLink = item.querySelector('a[href*="doi.org"]')?.href || "";
-            let doi = doiLink ? doiLink.split('doi.org/')[1] : "";
-
-            data.push({ title, author, journal: periodical.replace(year, "").replace(/, $/, "").trim(), year, doi });
+            // Periodical matnidan yil, jild va sahifalarni ajratishga urinish
+            results.push({ title, author, periodical, doi });
         }
     });
 
-    if (data.length === 0) {
-        alert("Eksport qilish uchun maqolalar topilmadi!");
-        return;
-    }
-
     if (type === 'csv') {
-        const header = "Title,Authors,Journal,Year,DOI\n";
-        const rows = data.map(d => `"${d.title.replace(/"/g, '""')}","${d.author.replace(/"/g, '""')}","${d.journal.replace(/"/g, '""')}","${d.year}","${d.doi}"`).join("\n");
-        downloadFile(header + rows, "publications_mahmudbey.csv", "text/csv");
+        let csv = "Title,Authors,Journal Info,DOI\n";
+        results.forEach(r => {
+            csv += `"${r.title.replace(/"/g, '""')}","${r.author.replace(/"/g, '""')}","${r.periodical.replace(/"/g, '""')}","${r.doi}"\n`;
+        });
+        downloadFile(csv, "publications.csv", "text/csv");
     } else if (type === 'txt') {
-        const content = data.map(d => 
-            `TITLE: ${d.title}\nAUTHORS: ${d.author}\nJOURNAL: ${d.journal}\nYEAR: ${d.year}\nDOI: ${d.doi}\n`
-        ).join("\n---\n");
-        downloadFile(content, "publications_list.txt", "text/plain");
+        let txt = results.map(r => `TITL: ${r.title}\nAUTH: ${r.author}\nJOUR: ${r.periodical}\nDOI: ${r.doi}\n`).join("\n---\n");
+        downloadFile(txt, "publications.txt", "text/plain");
     }
 }
 
@@ -96,15 +82,7 @@ function downloadFile(content, fileName, contentType) {
 </script>
 
 <style>
-/* Dizaynni biroz yaxshilash */
-.publications h2.year {
-    margin-top: 40px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    color: #444;
-}
-.btn:hover {
-    opacity: 0.8;
-    cursor: pointer;
-}
+  .bibliography li { margin-bottom: 20px; list-style: none; }
+  .btn { cursor: pointer; border-radius: 4px; padding: 5px 15px; border: none; font-size: 0.85rem; }
+  .btn:hover { opacity: 0.9; }
 </style>
