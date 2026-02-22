@@ -1,34 +1,4 @@
-name: Update Academic Stats (Scholar & Scopus)
-
-on:
-  schedule:
-    - cron: "0 0 * * 1" # Har dushanba
-    - cron: "0 0 * * 4" # Har payshanba
-  workflow_dispatch: # Manuel ishga tushirish tugmasi
-
-jobs:
-  update-stats:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          pip install requests PyYAML scholarly
-
-      - name: Fetch and Merge Academic Data
-        env:
-          SCOPUS_API_KEY: ${{ secrets.SCOPUS_API_KEY }}
-          SCOPUS_ID: "57432107100"
-          SCHOLAR_ID: "wd7-ywQAAAAJ"
-        run: |
+run: |
           python -c "
           import requests
           import yaml
@@ -37,11 +7,12 @@ jobs:
 
           stats = {'scopus': {}, 'scholar': {}}
 
-          # 1. Scopus ma'lumotlarini olish
+          # 1. Scopus - Odatda juda tez va barqaror
+          print('--- Fetching Scopus Data ---')
           try:
               scopus_url = f'https://api.elsevier.com/content/author/author_id/{os.environ[\"SCOPUS_ID\"]}'
               headers = {'X-ELS-APIKey': os.environ['SCOPUS_API_KEY'], 'Accept': 'application/json'}
-              r = requests.get(scopus_url, headers=headers)
+              r = requests.get(scopus_url, headers=headers, timeout=20)
               if r.status_code == 200:
                   data = r.json()['author-retrieval-response'][0]['coredata']
                   stats['scopus'] = {
@@ -49,32 +20,34 @@ jobs:
                       'citations': int(data.get('citation-count', 0)),
                       'documents': int(data.get('document-count', 0))
                   }
-                  print('Scopus data updated.')
+                  print('✅ Scopus data updated.')
+              else:
+                  print(f'❌ Scopus API error: {r.status_code}')
           except Exception as e:
-              print(f'Scopus error: {e}')
+              print(f'❌ Scopus error: {e}')
 
-          # 2. Google Scholar ma'lumotlarini olish
+          # 2. Google Scholar - Ehtiyotkorlik bilan (Timeout bilan)
+          print('--- Fetching Google Scholar Data ---')
           try:
+              # Qidiruvni boshlaymiz
               search_query = scholarly.search_author_id(os.environ['SCHOLAR_ID'])
+              # Faqat kerakli bo'limlarni va tezkor olishni so'raymiz
               author = scholarly.fill(search_query, sections=['basics', 'indices'])
+              
               stats['scholar'] = {
                   'h_index': author.get('hindex', 0),
                   'citations': author.get('citedby', 0),
                   'i10_index': author.get('i10index', 0)
               }
-              print('Scholar data updated.')
+              print('✅ Scholar data updated.')
           except Exception as e:
-              print(f'Scholar error: {e}')
+              print(f'⚠️ Scholar failed (likely blocked by Google): {e}')
+              # Agar Scholar ishlamasa, eski ma'lumotlarni saqlab qolish yoki 0 qo'yish
+              stats['scholar'] = {'h_index': 'N/A', 'citations': 'N/A', 'i10_index': 'N/A'}
 
-          # Ma'lumotlarni _data/stats.yml fayliga saqlash
+          # Ma'lumotlarni saqlash
           os.makedirs('_data', exist_ok=True)
           with open('_data/stats.yml', 'w') as f:
               yaml.dump(stats, f, default_flow_style=False)
+          print('--- Process Completed ---')
           "
-
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add _data/stats.yml
-          git diff --staged --quiet || (git commit -m "Update Scholar & Scopus stats" && git push)
