@@ -7,66 +7,86 @@ nav_order: 2
 ---
 
 <style>
-  /* Yillar rangi - To'q qora va ko'rinadigan */
-  .year-label {
+  /* 1. Global font o'lchamini bir xil qilish */
+  .publications, 
+  .publications .title, 
+  .publications .author, 
+  .publications .periodical, 
+  .publications .links a {
+    font-size: 1rem !important; /* Hamma yozuvlar bir xil o'lchamda */
+    line-height: 1.5 !important;
+  }
+
+  /* 2. O'ng tarafdagi ko'rinmas yoki ortiqcha yilni o'chirish */
+  .publications .year, 
+  .publications .badge {
+    display: none !important; /* Bibliografiya ichidagi yillarni butunlay yashiradi */
+  }
+
+  /* 3. Chap tarafdagi yillarni qora va aniq qilish */
+  .year-header {
     color: #000000 !important;
-    background-color: #f1f1f1 !important;
-    padding: 8px 15px !important;
-    display: inline-block !important;
+    background-color: #f0f0f0 !important;
+    padding: 10px 15px !important;
+    display: block !important;
     border-radius: 4px !important;
-    margin: 35px 0 15px 0 !important;
-    font-size: 1.4rem !important;
-    font-weight: 800 !important;
-    border-bottom: 3px solid #333 !important;
+    margin: 40px 0 20px 0 !important;
+    font-size: 1.2rem !important; /* Faqat yil sarlavhasi biroz ajralib turadi */
+    font-weight: bold !important;
+    border-left: 5px solid #000 !important;
   }
 
-  /* Nomeratsiyani majburan chiqarish */
-  .publications .bibliography {
-    list-style: decimal !important; /* Standart raqamlash */
-    padding-left: 2.5rem !important;
-    margin-bottom: 2rem !important;
+  /* 4. Uzluksiz raqamlash */
+  .publications {
+    counter-reset: global-counter;
+  }
+  .publications ol.bibliography {
+    list-style: none !important;
+    padding-left: 0 !important;
+  }
+  .publications ol.bibliography > li {
+    counter-increment: global-counter;
+    position: relative;
+    padding-left: 35px !important;
+    margin-bottom: 15px !important;
+  }
+  .publications ol.bibliography > li::before {
+    content: counter(global-counter) ".";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    color: #000;
   }
 
-  .publications .bibliography > li {
-    display: list-item !important; /* Flex yoki block-ni bekor qiladi */
-    margin-bottom: 1.5rem !important;
-    color: #333 !important;
-  }
-
-  /* Sarlavha dizayni */
-  .main-section-title {
-    color: #000 !important;
+  .main-header {
     font-weight: bold;
     text-transform: uppercase;
-    border-bottom: 4px solid #007bff;
-    padding-bottom: 5px;
+    border-bottom: 2px solid #000;
     margin-bottom: 20px;
   }
 </style>
 
 <div class="publications">
 
-  <div class="pub-filters" style="margin-bottom: 30px; padding: 20px; background: #fff; border: 1px solid #eee; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-    <input type="text" id="pubSearch" placeholder="Maqolalarni qidirish (nomi, yili, muallifi)..." 
-           style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
-    <div style="margin-top: 15px; display: flex; gap: 10px;">
-      <button onclick="exportData('bib')" class="btn btn-sm" style="background: #007bff; color: white;">Export .BIB</button>
-      <button onclick="exportData('csv')" class="btn btn-sm" style="background: #28a745; color: white;">Export .CSV</button>
-      <button onclick="exportData('txt')" class="btn btn-sm" style="background: #6c757d; color: white;">Export .TXT</button>
+  <div class="pub-filters" style="margin-bottom: 30px; padding: 15px; background: #fafafa; border: 1px solid #eee; border-radius: 8px;">
+    <input type="text" id="pubSearch" placeholder="Qidiruv..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+    <div style="margin-top: 10px; display: flex; gap: 8px;">
+      <button onclick="exportData('bib')" class="btn btn-sm btn-outline-dark">.BIB</button>
+      <button onclick="exportData('csv')" class="btn btn-sm btn-outline-dark">.CSV</button>
+      <button onclick="exportData('txt')" class="btn btn-sm btn-outline-dark">.TXT</button>
     </div>
   </div>
 
-  <h1 class="main-section-title">All Publications</h1>
+  <h1 class="main-header">All Publications</h1>
+
+  {% assign current_years = "2026,2025,2024,2023,2022,2021" | split: "," %}
   
-  {% assign years = "2026,2025,2024,2023,2022,2021" | split: "," %}
-  
-  {% for year in years %}
-    {% capture year_entries %}{% bibliography -f papers -q @*[year={{year}}]* %}{% endcapture %}
-    
-    {% if year_entries != "" and year_entries != " " and year_entries.size > 50 %}
-      <div class="year-group">
-        <div class="year-label">{{ year }}</div>
-        {% bibliography -f papers -q @*[year={{year}}]* %}
+  {% for y in current_years %}
+    {% capture entries %}{% bibliography -f papers -q @*[year={{y}}]* %}{% endcapture %}
+    {% if entries != "" and entries != " " and entries.size > 100 %}
+      <h2 class="year-header">{{ y }}</h2>
+      <div class="year-block">
+        {{ entries }}
       </div>
     {% endif %}
   {% endfor %}
@@ -74,7 +94,6 @@ nav_order: 2
 </div>
 
 <script>
-// Qidiruv funksiyasi
 document.getElementById('pubSearch').addEventListener('keyup', function() {
     let filter = this.value.toLowerCase();
     let items = document.querySelectorAll('.bibliography > li');
@@ -83,7 +102,6 @@ document.getElementById('pubSearch').addEventListener('keyup', function() {
     });
 });
 
-// Eksport funksiyasi
 function exportData(type) {
     if (type === 'bib') {
         window.open('{{ site.baseurl }}/assets/bibliography/papers.bib', '_blank');
@@ -100,12 +118,13 @@ function exportData(type) {
             });
         }
     });
+    let content = "";
     if (type === 'csv') {
-        let csv = "Title,Author,Journal\n" + data.map(d => `"${d.t}","${d.a}","${d.j}"`).join("\n");
-        downloadFile(csv, "publications.csv", "text/csv");
+        content = "Title,Author,Journal\n" + data.map(d => `"${d.t}","${d.a}","${d.j}"`).join("\n");
+        downloadFile(content, "publications.csv", "text/csv");
     } else if (type === 'txt') {
-        let txt = data.map(d => `${d.t}\n${d.a}\n${d.j}\n`).join("\n---\n");
-        downloadFile(txt, "publications_list.txt", "text/plain");
+        content = data.map(d => `${d.t}\n${d.a}\n${d.j}\n`).join("\n---\n");
+        downloadFile(content, "publications.txt", "text/plain");
     }
 }
 
