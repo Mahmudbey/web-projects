@@ -7,7 +7,7 @@ subtitle: Researcher & Senior Lecturer at National University of Uzbekistan.
 profile:
   align: right
   image: prof_pic.jpg
-  image_circular: true
+  image_circular: false
   more_info: >
     <p>Tashkent, Uzbekistan</p>
     <p>(+998) 97-480-16-95</p>
