@@ -17,7 +17,7 @@ selected_papers: true
 social: true
 ---
 
-I am a Researcher and Senior Lecturer at the Department of Applied Mathematics and Computer Analysis, National University of Uzbekistan named after Mirzo Ulugbek. I hold a Ph.D. in Applied Mathematics (05.01.07 - Mathematical modelling. Numerical methods, and software).
+I am a Researcher and Senior Lecturer at the Department of Applied Mathematics and Computer Analysis, National University of Uzbekistan named after Mirzo Ulugbek. I hold a PhD in Applied Mathematics (05.01.07 - Mathematical modelling. Numerical methods, and software).
 
 My main research interests are the mathematical modelling of nonlinear physical processes, including analysing the qualitative features of solutions to differential equations, developing self-similar solutions, and conducting research. Furthermore, I am deeply interested in Data Analysis.
 
