@@ -6,8 +6,8 @@ subtitle: Researcher & Senior Lecturer at National University of Uzbekistan.
 
 profile:
   align: right
-  image: prof_pic.jpg # O'zingizning rasmingizni assets/img/ papkasiga joylang
-  image_circular: false
+  image: prof_pics.jpg
+  image_circular: true
   more_info: >
     <p>Tashkent, Uzbekistan</p>
 
