@@ -33,22 +33,21 @@ Put your address / P.O. box / other info right below your picture. You can also 
 
 Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
 
-<div class="academic-stats" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
-  <div style="display: flex; gap: 40px;">
+<div class="academic-stats" style="margin-top: 20px; border-top: 1px dotted #888; padding-top: 10px;">
+  <div style="display: flex; gap: 30px;">
     <div>
-      <h4 style="margin-bottom: 10px;">Scopus Stats</h4>
-      <ul style="list-style: none; padding-left: 0;">
-        <li><strong>h-index:</strong> {{ site.data.stats.scopus.h_index }}</li>
-        <li><strong>Citations:</strong> {{ site.data.stats.scopus.citations }}</li>
-        <li><strong>Publications:</strong> {{ site.data.stats.scopus.documents }}</li>
+      <h4>Scopus Stats</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li>h-index: {{ site.data.stats.scopus.h_index }}</li>
+        <li>Citations: {{ site.data.stats.scopus.citations }}</li>
+        <li>Publications: {{ site.data.stats.scopus.documents }}</li>
       </ul>
     </div>
-
     <div>
-      <h4 style="margin-bottom: 10px;">ORCID Profile</h4>
-      <ul style="list-style: none; padding-left: 0;">
-        <li><strong>Works count:</strong> {{ site.data.stats.orcid.works_count }}</li>
-        <li><strong>ORCID ID:</strong> <a href="https://orcid.org/{{ site.data.stats.orcid.id }}">{{ site.data.stats.orcid.id }}</a></li>
+      <h4>ORCID</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li>Works: {{ site.data.stats.orcid.works_count }}</li>
+        <li>ID: <a href="[https://orcid.org/](https://orcid.org/){{ site.data.stats.orcid.id }}">{{ site.data.stats.orcid.id }}</a></li>
       </ul>
     </div>
   </div>
