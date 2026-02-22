@@ -3,12 +3,13 @@
 # -----------------------------------------------------------------------------
 
 title: Makhmud Academic activities # the website title (if blank, full name will be used instead)
-first_name: Makhmud
-middle_name: M.
+# Site settings
+first_name: Mahmud
 last_name: Bobokandov
 contact_note: bmahmudbey@gmail.com
-description: Research on PDEs and Numerical Analysis # the ">" symbol means to ignore newlines until "footer_text:"
-  A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+description: >
+  Research on PDEs and Numerical Analysis.
+  Academic portfolio for engineering and mathematics.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
