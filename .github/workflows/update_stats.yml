@@ -22,7 +22,7 @@ jobs:
 
       - name: Fetch Scopus Data
         env:
-          SCOPUS_API_KEY: "1fccdc6e57093bf9c71cb758e206fefa"
+          SCOPUS_API_KEY: ${{ secrets.SCOPUS_API_KEY }}
           SCOPUS_ID: "57432107100"
         run: |
           python -c "
