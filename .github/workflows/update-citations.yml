@@ -1,43 +1,61 @@
 run: |
           python -c "
-          import requests, yaml, os
-          stats = {'scopus': {'h_index': 0, 'citations': 0, 'documents': 0}, 'orcid': {'works_count': 0, 'id': ''}}
-          
-          # Scopus qismi
-          try:
-              sc_id = os.environ['SCOPUS_ID']
-              key = os.environ['SCOPUS_API_KEY']
-              print(f'Attempting Scopus ID: {sc_id}')
-              r = requests.get(f'https://api.elsevier.com/content/author/author_id/{sc_id}', 
-                               headers={'X-ELS-APIKey': key, 'Accept': 'application/json'}, timeout=20)
+          import requests
+          import yaml
+          import os
+
+          def get_scopus_data():
+              api_key = os.environ['SCOPUS_API_KEY']
+              scopus_id = os.environ['SCOPUS_ID']
               
-              print(f'Scopus Response Status: {r.status_code}')
+              # Scopus Author Retrieval URL
+              url = f'https://api.elsevier.com/content/author/author_id/{scopus_id}'
               
-              if r.status_code == 200:
-                  d = r.json()['author-retrieval-response'][0]['coredata']
-                  stats['scopus'] = {
-                      'h_index': int(d.get('h-index', 0)), 
-                      'citations': int(d.get('citation-count', 0)), 
-                      'documents': int(d.get('document-count', 0))
+              headers = {
+                  'X-ELS-APIKey': api_key,
+                  'Accept': 'application/json',
+                  'User-Agent': 'Mozilla/5.0' # Ba'zan server bloklamasligi uchun kerak
+              }
+              
+              print(f'Connecting to Scopus with ID: {scopus_id}...')
+              
+              try:
+                  response = requests.get(url, headers=headers, timeout=20)
+                  
+                  if response.status_code == 401:
+                      print('❌ Xatolik 401: API kalit noto\'g\'ri yoki Scopus obunangiz yo\'q.')
+                      return None
+                  
+                  response.raise_for_status()
+                  data = response.json()
+                  coredata = data['author-retrieval-response'][0]['coredata']
+                  
+                  return {
+                      'h_index': int(coredata.get('h-index', 0)),
+                      'citations': int(coredata.get('citation-count', 0)),
+                      'documents': int(coredata.get('document-count', 0))
                   }
-                  print('✅ Scopus data successfully fetched')
-              else:
-                  print(f'❌ Scopus API Error: {r.text}')
-          except Exception as e:
-              print(f'❌ Scopus critical error: {e}')
+              except Exception as e:
+                  print(f'⚠️ Scopus error: {e}')
+                  return None
 
-          # ORCID qismi
-          try:
-              orcid = os.environ['ORCID_ID']
-              r = requests.get(f'https://pub.orcid.org/v3.0/{orcid}/works', 
-                               headers={'Accept': 'application/json'}, timeout=20)
-              if r.status_code == 200:
-                  stats['orcid'] = {'works_count': len(r.json().get('group', [])), 'id': orcid}
-                  print('✅ ORCID success')
-          except Exception as e:
-              print(f'❌ ORCID error: {e}')
+          def get_orcid_data():
+              orcid_id = '0000-0002-3326-4390'
+              url = f'https://pub.orcid.org/v3.0/{orcid_id}/works'
+              try:
+                  r = requests.get(url, headers={'Accept': 'application/json'}, timeout=20)
+                  if r.status_code == 200:
+                      return {'works_count': len(r.json().get('group', [])), 'id': orcid_id}
+              except: pass
+              return {'works_count': 0, 'id': orcid_id}
 
+          scopus = get_scopus_data() or {'h_index': 0, 'citations': 0, 'documents': 0}
+          orcid = get_orcid_data()
+          
+          stats = {'scopus': scopus, 'orcid': orcid}
+          
           os.makedirs('_data', exist_ok=True)
           with open('_data/stats.yml', 'w') as f:
               yaml.dump(stats, f)
+          print('✅ Process completed.')
           "
