@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: pip install requests PyYAML
 
-      - name: Fetch Data
+      - name: Fetch and Merge Data
         env:
           SCOPUS_API_KEY: ${{ secrets.SCOPUS_API_KEY }}
           SCOPUS_ID: "57432107100"
@@ -31,29 +31,28 @@ jobs:
         run: |
           python -c "
           import requests, yaml, os
-
-          # Avvalgi ma'lumotlarni o'qish (agar bo'lsa)
-          file_path = '_data/stats.yml'
-          if os.path.exists(file_path):
-              with open(file_path, 'r') as f:
+          path = '_data/stats.yml'
+          
+          # 1. Mavjud ma'lumotlarni yuklash
+          if os.path.exists(path):
+              with open(path, 'r') as f:
                   stats = yaml.safe_load(f) or {}
           else:
               stats = {'scopus': {'h_index': 0, 'citations': 0, 'documents': 0}, 'orcid': {}}
 
-          # 1. ORCID Yangilash (Bu doim ishlaydi)
+          # 2. ORCID Yangilash (Avtomatik)
           try:
-              orcid_id = os.environ['ORCID_ID']
-              r = requests.get(f'https://pub.orcid.org/v3.0/{orcid_id}/works', headers={'Accept': 'application/json'}, timeout=15)
+              oid = os.environ['ORCID_ID']
+              r = requests.get(f'https://pub.orcid.org/v3.0/{oid}/works', headers={'Accept': 'application/json'}, timeout=15)
               if r.status_code == 200:
-                  stats['orcid'] = {'works_count': len(r.json().get('group', [])), 'id': orcid_id}
-                  print('✅ ORCID updated')
-          except: print('⚠️ ORCID failed')
+                  stats['orcid'] = {'works_count': len(r.json().get('group', [])), 'id': oid}
+                  print('ORCID updated successfully')
+          except: print('ORCID update failed, keeping old data')
 
-          # 2. Scopus (Faqatgina ruxsat bo'lsa yangilaydi, bo'lmasa eski qiymatni saqlaydi)
+          # 3. Scopus (Faqat ruxsat bo'lsa yangilaydi)
           try:
               headers = {'X-ELS-APIKey': os.environ['SCOPUS_API_KEY'], 'Accept': 'application/json'}
-              url = f'https://api.elsevier.com/content/author/author_id/{os.environ[\"SCOPUS_ID\"]}'
-              r = requests.get(url, headers=headers, timeout=15)
+              r = requests.get(f'https://api.elsevier.com/content/author/author_id/{os.environ[\"SCOPUS_ID\"]}', headers=headers, timeout=15)
               if r.status_code == 200:
                   d = r.json()['author-retrieval-response'][0]['coredata']
                   stats['scopus'] = {
@@ -61,13 +60,11 @@ jobs:
                       'citations': int(d.get('citation-count', stats['scopus'].get('citations', 0))),
                       'documents': int(d.get('document-count', stats['scopus'].get('documents', 0)))
                   }
-                  print('✅ Scopus updated')
-              else:
-                  print(f'ℹ️ Scopus blocked (401). Keeping existing data.')
-          except: print('⚠️ Scopus connection error')
+                  print('Scopus updated successfully')
+              else: print('Scopus blocked (401), preserving manual data')
+          except: print('Scopus connection error')
 
-          os.makedirs('_data', exist_ok=True)
-          with open(file_path, 'w') as f:
+          with open(path, 'w') as f:
               yaml.dump(stats, f)
           "
 
@@ -76,5 +73,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add _data/stats.yml
-          git commit -m "Update stats (ORCID auto, Scopus fallback)" || exit 0
-          git push
+          git diff --staged --quiet || (git commit -m "Update stats (ORCID-sync)" && git push)
