@@ -1,0 +1,78 @@
+% ============================================================
+%  macros.tex  —  Maxsus buyruqlar, TikZ uslublari, ranglar
+% ============================================================
+
+% ---  Sonlar to'plamlari ---
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Qplus}{\mathbb{Q}_{+}}
+\newcommand{\Rplus}{\mathbb{R}_{+}}
+
+% --- Yuza belgisi ---
+\newcommand{\Sarea}{S}
+\newcommand{\Area}[1]{S\!\left(#1\right)}
+
+% --- Qisqacha matematik buyruqlar ---
+\newcommand{\half}{\tfrac{1}{2}}
+\newcommand{\limn}{\lim_{n\to\infty}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\To}{\longrightarrow}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+% ---- Ranglar (akademik palet: kulrang + ko'k aksent) ----
+\definecolor{fillA}{RGB}{173, 216, 230}    % och ko'k
+\definecolor{fillB}{RGB}{220, 220, 220}    % kulrang
+\definecolor{fillC}{RGB}{198, 230, 190}    % och yashil
+\definecolor{fillD}{RGB}{255, 230, 180}    % och sariq
+\definecolor{geomblue}{RGB}{0,  90, 150}   % to'q ko'k chiziq
+\definecolor{geomgray}{RGB}{70, 70,  70}   % to'q kulrang chiziq
+\definecolor{accred}{RGB}{160, 20,  20}    % qizil aksent
+\definecolor{dimclr}{RGB}{100,100,100}     % o'lcham chiziqlari
+\definecolor{boxbg}{RGB}{240, 245, 255}    % formula qutisi foni
+
+% ---- TikZ global uslublari ----
+\tikzset{
+  % Asosiy geometrik chiziq
+  geomline/.style    = {thick,  draw=geomblue},
+  geomdash/.style    = {dashed, draw=geomblue!70, thick},
+  thickgeom/.style   = {very thick, draw=geomblue},
+  % To'ldirilgan shakllar
+  shapeA/.style  = {fill=fillA, draw=geomblue, thick},
+  shapeB/.style  = {fill=fillB, draw=geomgray, thick},
+  shapeC/.style  = {fill=fillC, draw=geomgray!80, thick},
+  shapeD/.style  = {fill=fillD, draw=geomgray!80, thick},
+  % O'q chiziqlari
+  axisline/.style    = {-Stealth, thin, black!60},
+  % O'lcham chiziqlari (dimension lines)
+  dimline/.style     = {Stealth-Stealth, thin, dimclr},
+  dimlinelabel/.style= {font=\small, dimclr},
+  % Nuqtalar
+  dotpt/.style       = {circle, fill=geomblue, inner sep=1.5pt},
+  dotred/.style      = {circle, fill=accred,   inner sep=1.5pt},
+  % Etiketlar
+  lab/.style         = {font=\small, inner sep=1pt},
+  labmath/.style     = {font=\small},
+}
+
+% ---- tcolorbox uslublari ----
+\tcbset{
+  formulabox/.style = {
+    enhanced,
+    colback  = boxbg,
+    colframe = geomblue,
+    fonttitle= \bfseries\small,
+    boxrule  = 0.8pt,
+    arc      = 3pt,
+    breakable
+  },
+  resultbox/.style = {
+    enhanced,
+    colback  = fillA!40,
+    colframe = geomblue!70,
+    fonttitle= \bfseries\small,
+    boxrule  = 0.7pt,
+    arc      = 3pt
+  },
+}

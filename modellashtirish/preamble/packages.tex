@@ -1,0 +1,76 @@
+% ============================================================
+%  packages.tex  —  Barcha paketlar shu yerda e'lon qilinadi
+% ============================================================
+
+% --- Kodlash va shrift ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% --- Sahifa o'lchamlari ---
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
+
+% --- Matematika ---
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% --- Teorema muhitlari ---
+\usepackage{thmtools}
+
+% --- Grafiklar ---
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{
+  arrows.meta,
+  angles,
+  quotes,
+  calc,
+  patterns,
+  patterns.meta,
+  decorations.pathmorphing,
+  decorations.markings,
+  decorations.pathreplacing,
+  intersections,
+  backgrounds,
+  fit,
+  shapes.geometric,
+  math
+}
+\usepackage{subcaption}
+
+% --- Jadvallar ---
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+
+% --- Ranglar ---
+\usepackage{xcolor}
+
+% --- Qutichalar ---
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{theorems, skins, breakable}
+
+% --- Ro'yxatlar ---
+\usepackage{enumitem}
+
+% --- Havolalar ---
+\usepackage[
+  colorlinks = true,
+  linkcolor  = blue!55!black,
+  citecolor  = green!45!black,
+  urlcolor   = blue!65!black
+]{hyperref}
+
+% --- Adabiyotlar ---
+\usepackage[backend=biber, style=alphabetic, sorting=nyt, maxbibnames=99]{biblatex}
+\addbibresource{bib/references.bib}
+
+% --- Boshqalar ---
+\usepackage{setspace}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf}
