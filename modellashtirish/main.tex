@@ -1,0 +1,39 @@
+% ============================================================
+%  main.tex  —  Asosiy fayl (standalone Overleaf loyiha)
+%  Modellashtirish darsligi, I Bob
+%  Muallif: Matematik, Professor
+% ============================================================
+\documentclass[12pt, a4paper]{report}
+
+% --- Preamble fayllarini yuklash ---
+\input{preamble/packages}
+\input{preamble/macros}
+\input{preamble/theorems}
+
+% --- Hujjat ma'lumotlari ---
+\title{%
+  \vspace{-1cm}%
+  \large\bfseries Modellashtirish\\[0.4em]
+  \normalsize\normalfont
+  Darslik. I Bob: Tekislikdagi shakllar yuzasi\\
+  va geometrik modellashtirish
+}
+\author{Matematik, Professor}
+\date{\today}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ---- Bobni kiritish ----
+\input{chapters/ch1_areas}
+
+\newpage
+% ---- Adabiyotlar ----
+\printbibliography[heading=bibintoc, title={Adabiyotlar}]
+
+\end{document}

@@ -1,0 +1,60 @@
+% ============================================================
+%  theorems.tex  —  Barcha teorema muhitlari
+% ============================================================
+
+% amsthm allaqachon packages.tex da yuklangan.
+
+% ---  Uslublar ---
+\newtheoremstyle{uzb_plain}%  nomi
+  {8pt}%   yuqoridan bo'sh joy
+  {6pt}%   pastdan bo'sh joy
+  {\itshape}% matn fonti
+  {}%      tekinlashtirish
+  {\bfseries}% sarlavha fonti
+  {.}%     sarlavhadan keyin belgisi
+  { }%     sarlavha va matn orasidagi bo'sh joy
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\newtheoremstyle{uzb_definition}%  nomi
+  {8pt}{}
+  {\normalfont}
+  {}
+  {\bfseries}
+  {.}{ }
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\newtheoremstyle{uzb_remark}%  nomi
+  {6pt}{}
+  {\normalfont}
+  {}
+  {\itshape}
+  {.}{ }
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+% --- Teorema muhitlari ---
+\theoremstyle{uzb_definition}
+\newtheorem{tarif}{Ta'rif}[section]
+\newtheorem{aksioma}{Aksioma}[section]
+\newtheorem{yasash}{Yasash}[section]   % Keyingi boblar uchun: geometrik yasash
+
+\theoremstyle{uzb_plain}
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{natija}{Natija}[section]
+
+\theoremstyle{uzb_remark}
+\newtheorem{izoh}{Izoh}[section]
+\newtheorem{misol}{Misol}[section]     % Keyingi boblar uchun: sonli misollar
+
+% --- tcolorbox ga o'ralgan muhitlar (ixtiyoriy foydalanish uchun) ---
+\newenvironment{formulabox}[1][]{%
+  \begin{tcolorbox}[formulabox, title={#1}]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{resultbox}[1][]{%
+  \begin{tcolorbox}[resultbox, title={#1}]%
+}{%
+  \end{tcolorbox}%
+}
